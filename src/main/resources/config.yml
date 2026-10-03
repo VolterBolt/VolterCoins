@@ -130,20 +130,17 @@ api:
   # Enable public API for external plugins
   enabled: true
   
+  # Vault bridge (optional, allows other plugins to use VolterCoins via Vault)
+  vault-bridge:
+    enabled: true
+    auto-register: true
+  
   # API base package
   base-package: "dev.coins.api"
   
   # Supported integrations:
   # - Other plugins can call VolterCoins.getAPI() to access EconomyProvider
   # - Event system for economy transactions
-  # - REST API (optional, see below)
-
-  # REST API Configuration (optional)
-  rest-api:
-    enabled: false
-    port: 8080
-    bind-address: "127.0.0.1"
-    api-key: "your-secure-key-here"
 
 # =============================================================================
 # LOGGING & ANALYTICS
