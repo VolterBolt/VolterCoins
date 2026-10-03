@@ -7,6 +7,7 @@ import dev.coins.commands.CoinsCommand;
 import dev.coins.commands.PayCommand;
 import dev.coins.database.DatabaseManager;
 import dev.coins.economy.EconomyManager;
+import dev.coins.listeners.PlayerListener;
 import dev.coins.placeholders.VolterCoinsExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -40,6 +41,7 @@ public class VolterCoins extends JavaPlugin {
         economyManager = new EconomyManager(this, databaseManager);
 
         registerCommands();
+        registerListeners();
         registerPlaceholders();
         registerVaultBridge();
 
@@ -74,6 +76,10 @@ public class VolterCoins extends JavaPlugin {
         if (coinsAdminCommand != null) {
             coinsAdminCommand.setExecutor(new CoinsAdminCommand(this));
         }
+    }
+
+    private void registerListeners() {
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
     private void registerPlaceholders() {
