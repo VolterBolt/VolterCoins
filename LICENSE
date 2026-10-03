@@ -1,47 +1,52 @@
-Volter Shop Custom License
+VolterCoins Custom License
 Copyright (c) 2026 VolterBolt
 
 All Rights Reserved.
 
-1. Permission for Personal Use
+1. Scope
 
-Permission is granted to any person who has lawfully obtained a copy of this software to:
-- Install and run the software for personal, private, and non-public use.
-- Modify the source code for personal, private, and non-public use.
+This repository contains the source code, configuration, scripts, data files, documentation, and related materials for VolterCoins (the "Software"). This license applies to all original material owned by VolterBolt in this repository unless a separate file or dependency states otherwise.
 
-2. Restrictions
+2. Personal Use
+
+Permission is granted to any person who has lawfully obtained a copy of this Software to:
+- Install, run, and use the Software for personal, private, and non-public purposes.
+- Review and study the source code for personal learning or private project evaluation.
+- Create private modifications for personal use only.
+
+3. Restrictions
 
 Without prior written permission from VolterBolt, you may NOT:
-- Publish or publicly distribute the source code or any part of it.
-- Re-upload, mirror, or redistribute the source code.
-- Sell, sublicense, or otherwise commercially distribute the source code.
-- Distribute modified versions of the source code.
-- Publish or distribute compiled/binary versions of the software.
-- Make the source code or modified versions available to the public.
-- Claim authorship or ownership of the original source code.
+- Publish, distribute, or share the Software or any part of it in public repositories, websites, package registries, or other public channels.
+- Re-upload, mirror, redistribute, or host the Software or any modified version anywhere publicly.
+- Sell, sublicense, rent, lease, or commercially distribute the Software.
+- Distribute or publish modified versions of the Software.
+- Publish compiled binaries, packaged builds, or derived assets based on the Software.
+- Make the source code, configuration files, or any derivative work available to the public.
+- Claim authorship, ownership, or copyright of the original Software.
 
-3. Private Modifications
+4. Private Modifications
 
-You may create and use modified versions privately for your own personal use. Private modifications do not have to be disclosed to VolterBolt.
+You may create private modifications for your own personal use. Private modifications are allowed only if they remain private and are not published, distributed, or shared with others outside your own lawful personal use. You do not need to disclose private modifications to VolterBolt.
 
-4. Ownership
+5. Ownership
 
-The source code and original work remain the property of VolterBolt. This license does not transfer ownership or copyright to any other person.
+The Software and all original materials in this repository remain the exclusive property of VolterBolt. This license does not transfer ownership, title, or copyright to any other person or entity.
 
-5. Third-Party Components
+6. Third-Party Components
 
-Any third-party software, libraries, APIs, or dependencies included in or required by the project remain subject to their respective licenses. This license applies only to original work owned by VolterBolt.
+Any third-party software, libraries, APIs, dependencies, frameworks, or assets incorporated into this project remain subject to their own license terms. This license governs only the original material owned by VolterBolt in this repository. Where a third-party component has a conflicting license, that third-party license applies to that specific component.
 
-6. No Warranty
+7. No Warranty
 
-The software is provided "as is", without warranty of any kind, express or implied. VolterBolt shall not be liable for any claim, damages, or other liability arising from the use of the software, or inability to use the software, whether in an action of contract, tort, or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL VOLTERBOLT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-7. License Changes
+8. License Changes
 
-VolterBolt reserves the right to release future versions of this project under different licensing terms. A version already released under this license remains subject to the terms applicable to that version.
+VolterBolt reserves the right to release future versions of this project under different terms. Any version already released under this license remains governed by the terms in effect for that version at the time of release.
 
-8. Permission Requests
+9. Permission Requests
 
-Requests for permission to publish, redistribute, sell, or otherwise use the software outside the permissions granted above must be obtained from VolterBolt in writing.
+Any use of the Software outside the permissions granted above requires prior written permission from VolterBolt. Requests for permission to publish, redistribute, sell, or otherwise use the Software may be sent to VolterBolt in writing.
 
-This license applies to the original source code and other original material in this repository that is owned by VolterBolt.
+This license is intended to protect the proprietary and private nature of the VolterCoins project while allowing limited personal use only.
