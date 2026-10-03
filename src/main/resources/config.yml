@@ -1,0 +1,269 @@
+# VolterCoins Configuration File
+# Independent Minecraft Economy Plugin for Paper 1.20.4
+# https://github.com/VolterBolt/VolterCoins
+
+# =============================================================================
+# ECONOMY CORE SETTINGS
+# =============================================================================
+economy:
+  # Currency name (singular/plural)
+  currency-singular: "coin"
+  currency-plural: "coins"
+  
+  # Currency symbol
+  currency-symbol: "ⓒ"
+  
+  # Decimal places for balance display
+  decimal-places: 2
+  
+  # Display format for balances (supports {balance}, {currency}, {symbol})
+  display-format: "&6{symbol} &f{balance} &6{currency}"
+  
+  # Starting balance for new players
+  starting-balance: 100.0
+  
+  # Maximum balance a player can have
+  max-balance: 9999999.99
+  
+  # Minimum balance (cannot go below this)
+  min-balance: 0.0
+
+# =============================================================================
+# TRANSACTION SETTINGS
+# =============================================================================
+transactions:
+  # Enable transaction logging
+  enabled: true
+  
+  # Transaction log file location
+  log-file: "plugins/VolterCoins/transactions.log"
+  
+  # Keep transaction history in database (days, -1 = infinite)
+  history-retention-days: 90
+  
+  # Max transaction amount
+  max-transaction-amount: 1000000.0
+  
+  # Min transaction amount
+  min-transaction-amount: 0.01
+  
+  # Pay command cooldown (seconds)
+  pay-cooldown-seconds: 5
+
+# =============================================================================
+# DATABASE CONFIGURATION
+# =============================================================================
+database:
+  # Storage type: SQLITE or MYSQL
+  type: SQLITE
+  
+  # SQLite configuration
+  sqlite:
+    # Database file location
+    file: "plugins/VolterCoins/data.db"
+    
+    # Enable WAL mode (faster, recommended)
+    enable-wal: true
+    
+    # Connection pool size
+    max-connections: 5
+
+  # MySQL configuration
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "voltercoin"
+    username: "root"
+    password: "password"
+    
+    # Connection pool settings
+    max-connections: 10
+    min-connections: 2
+    connection-timeout-ms: 30000
+    idle-timeout-ms: 600000
+    
+    # Database options
+    use-ssl: false
+    auto-reconnect: true
+
+# =============================================================================
+# PLAYER DATA & CACHING
+# =============================================================================
+data:
+  # Enable in-memory balance cache
+  enable-cache: true
+  
+  # Cache expiration time (seconds)
+  cache-expiration-seconds: 300
+  
+  # Load player data when they join
+  load-on-join: true
+  
+  # Save player data when they leave
+  save-on-quit: true
+  
+  # Auto-save interval (seconds, 0 = disabled)
+  auto-save-interval: 300
+
+# =============================================================================
+# PLACEHOLDER CONFIGURATION
+# =============================================================================
+placeholders:
+  # Enable PlaceholderAPI integration
+  enabled: true
+  
+  # Placeholder identifier prefix (e.g., %voltercoin_balance%)
+  identifier: "voltercoin"
+  
+  # Supported placeholders:
+  # - %voltercoin_balance% - Player's balance
+  # - %voltercoin_balance_formatted% - Formatted balance with currency
+  # - %voltercoin_top_<rank>% - Top player at rank (1-10)
+  # - %voltercoin_top_balance_<rank>% - Top player balance at rank
+  # - %voltercoin_rank% - Player's rank by balance
+  # - %voltercoin_total_economy% - Total money in economy
+
+# =============================================================================
+# API & EXTERNAL PLUGIN INTEGRATION
+# =============================================================================
+api:
+  # Enable public API for external plugins
+  enabled: true
+  
+  # API base package
+  base-package: "dev.coins.api"
+  
+  # Supported integrations:
+  # - Other plugins can call VolterCoins.getAPI() to access EconomyProvider
+  # - Event system for economy transactions
+  # - REST API (optional, see below)
+
+  # REST API Configuration (optional)
+  rest-api:
+    enabled: false
+    port: 8080
+    bind-address: "127.0.0.1"
+    api-key: "your-secure-key-here"
+
+# =============================================================================
+# LOGGING & ANALYTICS
+# =============================================================================
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR
+  level: INFO
+  
+  # Log file location
+  file: "plugins/VolterCoins/logs/voltercoin.log"
+  
+  # Maximum log file size (MB)
+  max-file-size: 10
+  
+  # Keep log files (days)
+  keep-logs-days: 30
+  
+  # Log transactions
+  log-transactions: true
+  
+  # Log balance changes
+  log-balance-changes: true
+  
+  # Log admin commands
+  log-admin-commands: true
+
+# =============================================================================
+# MESSAGES & CHAT
+# =============================================================================
+messages:
+  prefix: "&8[&6VolterCoins&8]"
+  
+  # Balance commands
+  balance-self: "{prefix} &aYour balance: &6{balance}"
+  balance-other: "{prefix} &a{player}'s balance: &6{balance}"
+  balance-loading: "{prefix} &eLoading balance..."
+  balance-error: "{prefix} &cError loading balance. Try again later."
+  
+  # Pay command
+  pay-sent: "{prefix} &aYou sent &6{amount} {currency} &ato &6{player}"
+  pay-received: "{prefix} &aYou received &6{amount} {currency} &afrom &6{player}"
+  pay-cooldown: "{prefix} &cYou must wait &6{cooldown}s &cbefore paying again."
+  pay-invalid-amount: "{prefix} &cInvalid amount. Use a positive number."
+  pay-insufficient-funds: "{prefix} &cInsufficient funds. You have &6{balance} {currency}"
+  pay-self: "{prefix} &cYou cannot pay yourself."
+  pay-player-offline: "{prefix} &cPlayer &6{player} &cis not online."
+  pay-max-exceeded: "{prefix} &cMaximum transaction amount is &6{max} {currency}"
+  pay-min-exceeded: "{prefix} &cMinimum transaction amount is &6{min} {currency}"
+  
+  # Top command
+  top-header: "{prefix} &e&l=== Top 10 Richest Players ==="
+  top-entry: "&e#{rank} &f{player} &8- &6{balance} {currency}"
+  top-footer: "&e=========================="
+  
+  # Admin commands
+  admin-give: "{prefix} &aGave &6{amount} {currency} &ato &6{player}"
+  admin-take: "{prefix} &aTook &6{amount} {currency} &afrom &6{player}"
+  admin-set: "{prefix} &aSet &6{player}'s &abalance to &6{amount} {currency}"
+  admin-reset: "{prefix} &aReset &6{player}'s &abalance to &6{amount} {currency}"
+  
+  # Error messages
+  error-generic: "{prefix} &cAn error occurred. Check console for details."
+  error-player-not-found: "{prefix} &cPlayer &6{player} &cnot found."
+  error-invalid-number: "{prefix} &cInvalid number format."
+  
+  # Success messages
+  success-reload: "{prefix} &aConfiguration reloaded successfully."
+  success-export: "{prefix} &aPlayer data exported to &6{file}"
+
+# =============================================================================
+# FEATURES & RESTRICTIONS
+# =============================================================================
+features:
+  # Enable balance sync across servers (requires multi-server setup)
+  multi-server-sync: false
+  
+  # Enable transaction history
+  transaction-history: true
+  
+  # Enable player rankings
+  player-rankings: true
+  
+  # Enable economy statistics
+  economy-stats: true
+  
+  # Enable balance caps per world
+  world-specific-balances: false
+  
+  # Enable account deletion (purge old inactive accounts)
+  account-purge:
+    enabled: false
+    inactive-days: 90
+    keep-admins: true
+
+# =============================================================================
+# WORLD & ENVIRONMENT
+# =============================================================================
+worlds:
+  # Worlds where economy is disabled
+  disabled-worlds:
+    # - "creative"
+    # - "build"
+  
+  # World-specific multipliers
+  multipliers:
+    # survival: 1.0
+    # mining: 1.5
+
+# =============================================================================
+# BACKUP & RECOVERY
+# =============================================================================
+backups:
+  # Enable automatic backups
+  enabled: true
+  
+  # Backup interval (minutes)
+  interval-minutes: 1440  # Daily
+  
+  # Backup directory
+  directory: "plugins/VolterCoins/backups"
+  
+  # Keep backups (days)
+  keep-days: 30
