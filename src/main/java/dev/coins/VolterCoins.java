@@ -1,119 +1,120 @@
 package dev.coins;
 
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
+import dev.coins.bridge.VaultBridge;
 import dev.coins.commands.BalanceCommand;
-import dev.coins.commands.PayCommand;
 import dev.coins.commands.CoinsAdminCommand;
-import dev.coins.economy.CoinsEconomy;
+import dev.coins.commands.CoinsCommand;
+import dev.coins.commands.PayCommand;
 import dev.coins.database.DatabaseManager;
+import dev.coins.economy.EconomyManager;
+import dev.coins.placeholders.VolterCoinsExpansion;
+import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.java.JavaPlugin;
 
-/**
- * VolterCoins - Minecraft Economy Plugin for Paper 1.20.4
- * Compatible with Volter_Shop through Vault API integration
- */
+import java.sql.SQLException;
+
 public class VolterCoins extends JavaPlugin {
 
     private static VolterCoins instance;
-    private CoinsEconomy economy;
-    private DatabaseManager database;
+    private DatabaseManager databaseManager;
+    private EconomyManager economyManager;
+    private VaultBridge vaultBridge;
+    private VolterCoinsExpansion placeholderExpansion;
 
     @Override
     public void onEnable() {
         instance = this;
-
-        // Log startup
-        getLogger().info("====================================");
-        getLogger().info("VolterCoins v" + getDescription().getVersion());
-        getLogger().info("A Minecraft Economy Plugin for 1.20.4");
-        getLogger().info("====================================");
-
-        // Save default config
         saveDefaultConfig();
 
-        // Initialize database
         try {
-            database = new DatabaseManager(this);
-            database.initialize();
+            databaseManager = new DatabaseManager(this);
+            databaseManager.initialize();
             getLogger().info("Database initialized successfully.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             getLogger().severe("Failed to initialize database: " + e.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        // Initialize economy
-        economy = new CoinsEconomy(this, database);
-        getLogger().info("Economy initialized: " + economy.getName());
+        economyManager = new EconomyManager(this, databaseManager);
 
-        // Register with Vault
-        if (!registerVault()) {
-            getLogger().warning("Vault not found. Economy will run in standalone mode.");
-        } else {
-            getLogger().info("Successfully registered with Vault!");
-            getLogger().info("Volter_Shop can now use VolterCoins as its economy provider.");
-        }
+        registerCommands();
+        registerPlaceholders();
+        registerVaultBridge();
 
-        // Register commands
-        getCommand("coins").setExecutor(new CoinsCommand(this));
-        getCommand("balance").setExecutor(new BalanceCommand(this));
-        getCommand("pay").setExecutor(new PayCommand(this));
-        getCommand("coinsadmin").setExecutor(new CoinsAdminCommand(this));
-
-        // Register listeners
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
-
-        // Register PlaceholderAPI expansion (if available)
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new CoinsPlaceholder(this).register();
-            getLogger().info("PlaceholderAPI integration enabled.");
-        }
-
-        getLogger().info("VolterCoins successfully enabled!");
+        getLogger().info("VolterCoins enabled successfully.");
     }
 
     @Override
     public void onDisable() {
-        if (database != null) {
-            database.close();
+        if (databaseManager != null) {
+            databaseManager.close();
         }
         getLogger().info("VolterCoins disabled.");
     }
 
-    /**
-     * Register economy provider with Vault
-     */
-    private boolean registerVault() {
-        try {
-            RegisteredServiceProvider<Economy> rsp = 
-                Bukkit.getServicesManager().getRegistration(Economy.class);
-            
-            if (rsp == null) {
-                Bukkit.getServicesManager().register(
-                    Economy.class, 
-                    economy, 
-                    this, 
-                    org.bukkit.plugin.ServicePriority.Normal
-                );
-                return true;
-            }
-        } catch (Exception e) {
-            getLogger().severe("Error registering with Vault: " + e.getMessage());
+    private void registerCommands() {
+        PluginCommand balanceCommand = getCommand("balance");
+        if (balanceCommand != null) {
+            balanceCommand.setExecutor(new BalanceCommand(this));
         }
-        return false;
+
+        PluginCommand payCommand = getCommand("pay");
+        if (payCommand != null) {
+            payCommand.setExecutor(new PayCommand(this));
+        }
+
+        PluginCommand coinsCommand = getCommand("coins");
+        if (coinsCommand != null) {
+            coinsCommand.setExecutor(new CoinsCommand(this));
+        }
+
+        PluginCommand coinsAdminCommand = getCommand("coinsadmin");
+        if (coinsAdminCommand != null) {
+            coinsAdminCommand.setExecutor(new CoinsAdminCommand(this));
+        }
+    }
+
+    private void registerPlaceholders() {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            placeholderExpansion = new VolterCoinsExpansion(this, economyManager);
+            placeholderExpansion.register();
+            getLogger().info("PlaceholderAPI expansion registered.");
+        }
+    }
+
+    private void registerVaultBridge() {
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            vaultBridge = new VaultBridge(this, economyManager);
+            vaultBridge.register();
+            getLogger().info("Vault bridge registered.");
+        }
     }
 
     public static VolterCoins getInstance() {
         return instance;
     }
 
-    public CoinsEconomy getEconomy() {
-        return economy;
+    public DatabaseManager getDatabase() {
+        return databaseManager;
     }
 
-    public DatabaseManager getDatabase() {
-        return database;
+    public EconomyManager getEconomyManager() {
+        return economyManager;
+    }
+
+    public void reloadEconomy() {
+        reloadConfig();
+        if (economyManager != null) {
+            economyManager.reload();
+        }
+    }
+
+    public void reloadEconomy(org.bukkit.entity.Player player) {
+        reloadEconomy();
+        if (player != null) {
+            player.sendMessage("§aVolterCoins reloaded successfully.");
+        }
     }
 }
