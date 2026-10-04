@@ -18,7 +18,7 @@ commands:
     aliases:
       - bal
       - money
-    permission: voltercoin.balance.check
+    permission: voltercoin.balance
 
   pay:
     description: Send money to another player
@@ -64,15 +64,15 @@ permissions:
     description: Base permission for VolterCoins
     default: true
 
-  voltercoin.balance.check:
-    description: Check own balance or other players' balance
+  voltercoin.balance:
+    description: Allows checking your own balance
     default: true
     parent: voltercoin.use
 
-  voltercoin.balance.check.others:
-    description: Check other players' balances
-    default: true
-    parent: voltercoin.balance.check
+  voltercoin.balance.others:
+    description: Allows checking other players' balances
+    default: op
+    parent: voltercoin.balance
 
   voltercoin.pay.send:
     description: Send money to other players
@@ -113,8 +113,8 @@ permissions:
     default: op
     parent: voltercoin.admin
 
-  voltercoin.admin.transaction:
-    description: View and manage transactions
+  voltercoin.admin.check:
+    description: Check a player's balance and rank
     default: op
     parent: voltercoin.admin
 
@@ -122,15 +122,6 @@ permissions:
     description: Reload plugin configuration
     default: op
     parent: voltercoin.admin
-
-  voltercoin.admin.export:
-    description: Export player data
-    default: op
-    parent: voltercoin.admin
-
-  voltercoin.bypass.transaction-limit:
-    description: Bypass transaction amount limits
-    default: false
 
   voltercoin.bypass.cooldown:
     description: Bypass pay command cooldown
