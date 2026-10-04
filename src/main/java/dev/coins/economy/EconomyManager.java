@@ -4,13 +4,10 @@ import dev.coins.api.EconomyProvider;
 import dev.coins.database.DatabaseManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,14 +43,18 @@ public class EconomyManager implements EconomyProvider {
 
     @Override
     public boolean hasAccount(UUID playerId) {
-        return true;
+        return databaseManager.hasAccount(playerId);
     }
 
     @Override
     public boolean createAccount(UUID playerId) {
+        if (playerId == null) {
+            return false;
+        }
         if (hasAccount(playerId)) {
             return true;
         }
+
         databaseManager.setBalance(playerId, 0.0);
         return true;
     }
@@ -63,6 +64,7 @@ public class EconomyManager implements EconomyProvider {
         if (amount == null || amount.doubleValue() <= 0) {
             return false;
         }
+
         double current = databaseManager.getBalance(playerId);
         databaseManager.setBalance(playerId, current + amount.doubleValue());
         databaseManager.logTransaction(playerId, "DEPOSIT", amount.doubleValue(), "Deposit");
@@ -126,19 +128,7 @@ public class EconomyManager implements EconomyProvider {
 
     @Override
     public List<Map<String, Object>> getTopBalances(int limit) {
-        Map<String, Object> top = databaseManager.getTopBalance(limit);
-        List<Map<String, Object>> list = new ArrayList<>();
-
-        int index = 1;
-        for (Map.Entry<String, Object> entry : top.entrySet()) {
-            Map<String, Object> data = new HashMap<>();
-            data.put("rank", index++);
-            data.put("uuid", entry.getKey());
-            data.put("balance", entry.getValue());
-            list.add(data);
-        }
-
-        return list;
+        return databaseManager.getTopBalance(limit);
     }
 
     @Override
