@@ -10,7 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 public class VaultBridge implements Economy {
 
@@ -296,30 +295,5 @@ public class VaultBridge implements Economy {
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount, String reason) {
         return depositPlayer(player, worldName, amount);
-    }
-
-    @Override
-    public boolean hasAccount(UUID playerId) {
-        return true;
-    }
-
-    @Override
-    public double getBalance(UUID playerId) {
-        return economyManager.getBalance(playerId).doubleValue();
-    }
-
-    @Override
-    public boolean has(UUID playerId, double amount) {
-        return getBalance(playerId) >= amount;
-    }
-
-    @Override
-    public boolean withdraw(UUID playerId, double amount) {
-        return economyManager.withdraw(playerId, BigDecimal.valueOf(amount));
-    }
-
-    @Override
-    public boolean deposit(UUID playerId, double amount) {
-        return economyManager.deposit(playerId, BigDecimal.valueOf(amount));
     }
 }
